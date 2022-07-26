@@ -1,0 +1,13 @@
+.back-icon {
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.item img {
+    height: 400px;
+    width: auto;
+}
+
+.thumbnails {
+    height: 75px;
+}

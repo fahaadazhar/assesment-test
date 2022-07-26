@@ -1,0 +1,11 @@
+{
+    "/topstories/*": {
+        "target": "https://api.nytimes.com/",
+        "secure": true,
+        "changeOrigin": true,
+        "logLevel": "debug",
+        "pathRewrite": {
+            "^/topstories/": ""
+        }
+    }
+}

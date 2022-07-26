@@ -1,12 +1,27 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BaseAPIService } from './services/base.service';
+import { SpinnerService } from './shared/spinner/spinner.service';
+import { SharedService } from './services/shared-service';
+import { SpinnerComponent } from './shared/spinner/spinner.component';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        AppComponent
+      imports: [
+        RouterTestingModule,
+        HttpClientTestingModule
       ],
+      declarations: [
+        AppComponent,
+        SpinnerComponent
+      ],
+      providers: [
+        BaseAPIService,
+        SpinnerService,
+        SharedService]
     }).compileComponents();
   });
 
@@ -20,12 +35,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app.title).toEqual('NY-Times-Top-Stories');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('NY-Times-Top-Stories app is running!');
   });
 });

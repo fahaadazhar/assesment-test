@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { SpinnerService } from './shared/spinner/spinner.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'NY-Times-Top-Stories';
+  public isRequesting = false;
+  constructor(private spinnerService: SpinnerService) {
+    this.spinnerService.requestInProcess$.subscribe(isDone => {
+      this.isRequesting = isDone;
+    });
+  }
 }

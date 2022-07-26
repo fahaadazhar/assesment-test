@@ -1,0 +1,78 @@
+<app-navbar></app-navbar>
+<div class="container">
+    <h1 class="my-4 text-center">
+        <small>Search Top Stories</small>
+    </h1>
+    <div class="row mt-3 mb-3 category-section">
+        <div class="col-md-12 mb-2">
+            <div class="form-group">
+                <label for="exampleInputEmail1" class="mb-3">Search</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="e.g. Elections"
+                        aria-label="Recipient's username" aria-describedby="basic-addon2" [(ngModel)]="searchBy">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-primary" type="button" (click)="search()">
+                            <i class="fa fa-magnifying-glass"></i>
+                            Search</button>
+                    </div>
+                </div>
+            </div>
+            <ng-container *ngIf="history?.length > 0">
+                <p>Search History: </p>
+                <ng-container *ngFor="let h of history">
+                    <span class="badge badge-pill badge-success" (click)="searchFromHistory(h)">{{ h }}</span>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <ng-container *ngIf="search_stories && search_stories?.length > 0">
+                <div class="col-md-12 grid-view mb-3" *ngFor="let search_story of search_stories | paginate
+            : {
+                itemsPerPage: records,
+                currentPage: page,
+                totalItems: search_stories?.length
+              } ; let i = index
+      ">
+                    <div class="panel panel-default">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="panel-heading"><strong><a class="post-title">{{ search_story?.headline?.main
+                                            }}</a></strong></div>
+                            </div>
+                            <div class="col-md-4">
+                                <p class="author">{{ search_story?.byline?.original }}</p>
+                            </div>
+                        </div>
+
+                        <div class="row panel-body">
+                            <div class="col-md-4">
+                                <img class="image img-fluid rounded mb-3 mb-md-0"
+                                    *ngIf="search_story?.multimedia?.length > 0 else noImage"
+                                    src="https://www.nytimes.com/{{search_story?.multimedia[0]?.url}}" alt="">
+                                <ng-template #noImage>
+                                    <img class="image img-fluid rounded mb-3 mb-md-0"
+                                        src="https://gau-ed.org/wp-content/themes/eikra/assets/img/noimage-420x273.jpg"
+                                        alt="">
+                                </ng-template>
+                            </div>
+                            <div class="col-md-8 ml-2">
+
+                                <p><b>Abstract: </b>{{ search_story?.abstract }}
+                                </p>
+                                <p>{{ search_story?.lead_paragraph }}
+                                </p>
+                                <p class="author">{{ search_story?.pub_date | date }}</p>
+                                <a class="btn btn-primary" [href]="search_story?.web_url" target="_blank">View Full
+                                    Article</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <pagination-controls *ngIf="search_stories?.length > 0" (pageChange)="pageChanged($event)">
+        </pagination-controls>
+    </div>
+</div>
